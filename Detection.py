@@ -1,10 +1,12 @@
 import cv2
-import torch
 from ultralytics import YOLO
 
-model = YOLO('yolo26n.pt')
+model = YOLO('runs/detect/household_model/weights/best.pt')
 
 cap = cv2.VideoCapture(0)
+
+if not cap.isOpened():
+    exit()
 
 while cap.isOpened():
     success, frame = cap.read()
@@ -15,8 +17,7 @@ while cap.isOpened():
 
     for r in results:
         annotated_frame = r.plot()
-
-        cv2.imshow("PyTorch + OpenCV Detection", annotated_frame)
+        cv2.imshow("Custom Household YOLO Detection", annotated_frame)
 
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
